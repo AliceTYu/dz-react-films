@@ -1,0 +1,28 @@
+.inputBlock{
+    font-family: "Poppins", sans-serif;  
+    border: 1px solid var(--input-radius);
+    border-radius: 12px;
+    padding: 20px 16px;
+    background: rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+}
+
+.input{
+    font-family: "Poppins", sans-serif;
+    border: none;
+    background: none;
+    width: 100%;
+    color: var(--text-color-main);
+    outline:none;
+}
+
+.input::placeholder{
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 114%;
+    color: var(--input-text);
+}

@@ -7,6 +7,9 @@
   --main-color: #7B6EF6;
   --main-color-hover: #4737d3;
   --text-color-block: #8e95a9;
+  --input-radius: #323b54;
+  --input-text: #475069;
+  --header-color: #a8aebf;
 }
 
 body {
@@ -17,4 +20,14 @@ body {
   background: var(--bc-color);
 
   color: var(--text-color-main);
+}
+
+ul{
+  list-style-type:  none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
 }
