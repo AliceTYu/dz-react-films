@@ -26,8 +26,7 @@ function mapItems(items) {
 		return [];
 	}
 	return items.map(i => ({
-		...i, 
-		date: new Date(i.date)
+		...i
 	}));
 }
 
