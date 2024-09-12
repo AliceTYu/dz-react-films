@@ -1,19 +1,27 @@
+import LiItemForList from '../../components/liItemForList/liItemForList';
 import styles from './Header.module.css';
-import cn from 'classnames';
 
-function Header() {
+function Header({profile, setProfile, updateProfileItem}) {	
+	
 	return (
 		<header className={styles.header}>
 			<div className={styles.headerIcon}>
 				<img src='favorite.svg'/>
 			</div>
 			<ul className={styles.headerList}>
-				<li className={styles.headerItem}><a className={cn(styles.headerlink, styles.active)} href="#">Поиск фильмов</a></li>
-				<li className={styles.headerItem}><a className={styles.headerlink} href="#">Мои фильмы</a></li>
-				<li className={styles.headerItem}>
-					<a className={styles.headerlink} href="#">Войти</a>
-					<img className={styles.headerIcon2} src='int.svg'/>
-				</li>
+				<LiItemForList className={'active'}>Поиск фильмов</LiItemForList>
+				<LiItemForList>Мои фильмы</LiItemForList>
+
+				{profile.filter(el => el.isLogined).map((p) => (
+					<>
+						{p.isLogined && (
+							<LiItemForList icon={'user'}>{p.name}</LiItemForList>
+						)}
+						{p.isLogined && <LiItemForList onClick={() => setProfile(updateProfileItem(p.id, { isLogined: false }))}>Выйти</LiItemForList>}
+					</>
+				))}
+
+				{profile.filter(el => !el.isLogined).length === profile.length && <LiItemForList icon={'input'}>Войти</LiItemForList>}				
 			</ul>
 		</header>
 	);

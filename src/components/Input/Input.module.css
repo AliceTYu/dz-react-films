@@ -7,7 +7,7 @@
 
     display: flex;
     align-items: center;
-    width: 100%;
+    /* width: 100%; */
 
     gap: 16px;
 }
@@ -26,4 +26,8 @@
     font-size: 14px;
     line-height: 114%;
     color: var(--input-text);
+}
+
+.inValid{
+    border: 1px solid var(--main-color);
 }
