@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef, useState } from 'react';
+import { useContext, useEffect, useReducer, useRef, useState } from 'react';
 import './App.css';
 import Button from './components/Button/Button';
 import CardFilm from './components/CardFilm/CardFilm';
@@ -9,6 +9,7 @@ import TextBlock from './components/TextBlock/TextBlock';
 import Header from './layout/Header/Header';
 import { INITIAL_STATE, inputFormReducer } from './App.state';
 import { useLocalStorage } from './hooks/use-localStorage.hook';
+import { UserContextProvider } from './context/user.context';
 
 const INITIAL_ARRAY = [
 	{id: 1, title: 'Black Widow', img: '/public/cardFilms/image_01.jpg', rating: 324, favorite: 0},
@@ -38,10 +39,11 @@ function App() {
 	const [inputFormState, dispatchInputForm] = useReducer(inputFormReducer, INITIAL_STATE);
 	const { isValid, ifFormReadyToSubmit, values }  = inputFormState;
 	const nameRef = useRef();
+	
 
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const addProfile = item => {
-		setProfile([...profile, {
+		setProfile([...mapItems(profile), {
 			id: profile.length > 0 ? Math.max(...profile.map(i => i.id)) + 1 : 1,
 			name: item.name,
 			isLogined: true
@@ -103,7 +105,7 @@ function App() {
 	};
 
 	return (
-		<>
+		<UserContextProvider profile={mapItems(profile)}>
 			<Header updateProfileItem={updateProfileItem} setProfile={setProfile} profile={mapItems(profile)}/>
 			
 			<div className='appBlock'>
@@ -115,10 +117,15 @@ function App() {
 					<Button className={'default'}>Искать</Button>
 				</div>
 
-				{mapItems(profile).filter(i => !i.isLogined).length === mapItems(profile).length && <form className='block_input' onSubmit={addProfileItem}>
+				{mapItems(profile).filter(i => !i.isLogined).length === mapItems(profile).length ? <form className='block_input' onSubmit={addProfileItem}>
 					<Input autocomplete="off" onChange={onChange} name={'name'} isValid={isValid.name} ref={nameRef} placeholder='Имя пользователя' value={values.name} ></Input>
 					<Button className={'default'}>Войти в профиль</Button>
-				</form>}
+				</form> : <div>Пользователь авторизован</div>}
+
+				{/* {mapItems(profile).filter(i => !i.isLogined).length === mapItems(profile).length && <form className='block_input' onSubmit={addProfileItem}>
+					<Input autocomplete="off" onChange={onChange} name={'name'} isValid={isValid.name} ref={nameRef} placeholder='Имя пользователя' value={values.name} ></Input>
+					<Button className={'default'}>Войти в профиль</Button>
+				</form>} */}
 			</div>
 
 			<ListFilms>
@@ -126,7 +133,7 @@ function App() {
 					<CardFilm key={el.id} data={el}></CardFilm>
 				))}
 			</ListFilms>
-		</>
+		</UserContextProvider>
 	);
 }
 

@@ -1,27 +1,37 @@
+import { useContext } from 'react';
 import LiItemForList from '../../components/liItemForList/liItemForList';
 import styles from './Header.module.css';
+import { UserContext } from '../../context/user.context';
 
 function Header({profile, setProfile, updateProfileItem}) {	
+	const {nameProfile, loadProfile} = useContext(UserContext);
 	
 	return (
 		<header className={styles.header}>
 			<div className={styles.headerIcon}>
 				<img src='favorite.svg'/>
 			</div>
+
 			<ul className={styles.headerList}>
 				<LiItemForList className={'active'}>Поиск фильмов</LiItemForList>
 				<LiItemForList>Мои фильмы</LiItemForList>
 
 				{profile.filter(el => el.isLogined).map((p) => (
 					<>
-						{p.isLogined && (
-							<LiItemForList icon={'user'}>{p.name}</LiItemForList>
+						{loadProfile && (
+							<LiItemForList icon={'user'}>{nameProfile}</LiItemForList>
 						)}
-						{p.isLogined && <LiItemForList onClick={() => setProfile(updateProfileItem(p.id, { isLogined: false }))}>Выйти</LiItemForList>}
+						{loadProfile && <LiItemForList onClick={() => setProfile(updateProfileItem(p.id, { isLogined: false }))}>Выйти</LiItemForList>}
+						{/* {p.isLogined && (
+							<LiItemForList icon={'user'}>{p.name} / {nameProfile}</LiItemForList>
+						)}
+						{p.isLogined && <LiItemForList onClick={() => setProfile(updateProfileItem(p.id, { isLogined: false }))}>Выйти</LiItemForList>} */}
 					</>
 				))}
 
-				{profile.filter(el => !el.isLogined).length === profile.length && <LiItemForList icon={'input'}>Войти</LiItemForList>}				
+				{!loadProfile && <LiItemForList icon={'input'}>Войти</LiItemForList>}	
+
+				{/* {profile.filter(el => !el.isLogined).length === profile.length && <LiItemForList icon={'input'}>Войти</LiItemForList>}				 */}
 			</ul>
 		</header>
 	);
