@@ -1,12 +1,16 @@
+import { forwardRef } from 'react';
 import styles from './Input.module.css';
+import cn from 'classnames';
 
-function Input({placeholder, icon}) {
+const Input = forwardRef(function Input({icon, isValid = true, classNames, ...props}, ref) {
 	return (
-		<div className={styles.inputBlock}>
+		<div className={cn(styles.inputBlock, styles[classNames], {
+			[styles['inValid']]: !isValid
+		})} >
 			{icon && <img src='search.svg'/>}
-			<input className={styles.input} placeholder={placeholder}/>
+			<input {...props} ref={ref} className={styles.input}/>
 		</div>
 	);
-}
+});
 
 export default Input;
