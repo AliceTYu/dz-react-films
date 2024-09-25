@@ -1,10 +1,11 @@
 import styles from './Billet.module.css';
+import { BilletProps } from './Billet.props';
 
-function Billet({data}) {
+function Billet(props:BilletProps) {
 	return (
 		<div className={styles.favorite}>
 			<img src='/public/star.svg'/>
-			<div>{data.rating}</div>
+			<div>{props.rating}</div>
 		</div>
 	);
 }

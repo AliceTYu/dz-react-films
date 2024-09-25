@@ -9,12 +9,12 @@ function Header({profile, setProfile, updateProfileItem}) {
 	return (
 		<header className={styles.header}>
 			<div className={styles.headerIcon}>
-				<img src='favorite.svg'/>
+				<img src='/favorite.svg'/>
 			</div>
 
 			<ul className={styles.headerList}>
-				<LiItemForList className={'active'}>Поиск фильмов</LiItemForList>
-				<LiItemForList>Мои фильмы</LiItemForList>
+				<LiItemForList link={'/'}>Поиск фильмов</LiItemForList>
+				<LiItemForList link={'/favorites'}>Мои фильмы</LiItemForList>
 
 				{profile.filter(el => el.isLogined).map((p) => (
 					<>
@@ -29,7 +29,7 @@ function Header({profile, setProfile, updateProfileItem}) {
 					</>
 				))}
 
-				{!loadProfile && <LiItemForList icon={'input'}>Войти</LiItemForList>}	
+				{!loadProfile && <LiItemForList link={'/login'} icon={'input'}>Войти</LiItemForList>}	
 
 				{/* {profile.filter(el => !el.isLogined).length === profile.length && <LiItemForList icon={'input'}>Войти</LiItemForList>}				 */}
 			</ul>

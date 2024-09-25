@@ -16,7 +16,7 @@
     color: var(--header-color);
 }
 
-.headerlink.active{
+.active{
     color: var(--text-color-main);
 }
 
