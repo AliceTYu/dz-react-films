@@ -4,32 +4,11 @@
   padding: 0 10px;
 }
 
-.appBlock{
-  width: 588px;
+
+.block{
   margin: 80px 0;
-
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
 }
 
-.appInput{
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-
-  max-width: 455px;
-}
-
-.block_input{
-  margin: 1rem 0;
-  max-width: 400px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.block_input button{
-  max-width: 200px;
+.appBlock{
+  width: 500px;
 }

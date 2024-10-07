@@ -1,0 +1,16 @@
+.appBlock{
+    width: 588px;
+  
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.appInput{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    margin-bottom: 50px;
+    max-width: 455px;
+}
