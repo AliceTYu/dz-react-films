@@ -7,6 +7,9 @@ import TextBlock from '../../components/TextBlock/TextBlock';
 import Input from '../../components/Input/Input';
 import Button from '../../components/Button/Button';
 import styles from './MainPage.module.css';
+import axios, { AxiosError } from 'axios';
+import { Film } from '../../interfaces/films.intesface';
+import ErrorPage from '../ErrorPage/ErrorPage';
 
 const INITIAL_ARRAY = [
 	{id: 1, title: 'Black Widow', img: '/public/cardFilms/image_01.jpg', rating: 324, favorite: 0},
@@ -20,7 +23,36 @@ const INITIAL_ARRAY = [
 ];
 
 function MainPage({}:MainPageProps) {
-  const [data, setData] = useState(INITIAL_ARRAY);
+  const [dataFilms, setDataFilms] = useState<Film[]>([]);
+  const [filmInput, setFilmInput] = useState<string>('')
+
+  const [isLoaading, setIsLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | undefined>()
+
+  const getSearch = async (q: string) => {
+	try {
+		setError('')
+		setIsLoading(true)
+		const {data} = await axios.get<Film[]>(`https://search.imdbot.workers.dev/?q=${q}`)
+		if (data.description.length === 0){
+			setIsLoading(false)
+			setDataFilms('')
+		} else {
+			setDataFilms(data.description)
+			setIsLoading(false)
+		}
+	} catch (e) {
+		setIsLoading(false)
+		if ( e instanceof AxiosError){
+			setError(e.message)
+		}
+		return
+	}
+  }
+
+  const onChange = (e) => {
+	setFilmInput(e.target.value)
+};
 
   return (
     <>
@@ -29,22 +61,26 @@ function MainPage({}:MainPageProps) {
         <TextBlock>Введите название фильма, сериала или мультфильма для поиска и добавления в избранное.</TextBlock>
 
         <div className={styles.appInput}>
-			<Input icon={true} placeholder='Введите название'></Input>
-			<Button className={'default'}>Искать</Button>
+			<Input onChange={onChange} value={filmInput} icon={true} placeholder='Введите название'></Input>
+			<Button onClick={() => getSearch(filmInput)} className={'default'}>Искать</Button>
 		</div>
       </div>
 
-      <ListFilms>
-			{data.map(el => (
+	  {error && <ErrorPage/>}
+	  {!dataFilms && <ErrorPage/>}
+
+      {!isLoaading && dataFilms && <ListFilms>
+			{dataFilms.map(el => (
 				<CardFilm 
-					key={el.id} 
-					id={el.id} 
-					img={el.img}
-					title={el.title}
-					favorite={el.favorite}
-					rating={el.rating}></CardFilm>
+					key={el['#IMDB_ID']} 
+					id={el['#IMDB_ID']} 
+					img={el['#IMG_POSTER']}
+					title={el['#TITLE']}
+					rating={el['#RANK']}></CardFilm>
 			))}
-		</ListFilms>
+		</ListFilms>}
+
+		{isLoaading && <>Загрузка...</>}
     </>
   )
 }

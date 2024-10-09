@@ -1,8 +1,8 @@
 export interface CardFilmProps {
-    key: number,
-    id: number,
+    key: string,
+    id: string,
     img: string,
     title: string,
-    favorite: number,
+    favorite?: number,
     rating: number
 }

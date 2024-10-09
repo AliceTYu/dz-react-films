@@ -8,6 +8,7 @@ import ErrorPage from './pages/ErrorPage/ErrorPage';
 import AuthPage from './pages/AuthPage/AuthPage';
 import App from './App';
 import MoviePage from './pages/MoviePage/MoviePage';
+import axios from 'axios';
 
 const router = createBrowserRouter([
 	{
@@ -27,7 +28,12 @@ const router = createBrowserRouter([
 		},
 		{
 			path: '/movie/:id',
-			element: <MoviePage/>
+			element: <MoviePage/>,
+			errorElement: <>Ошибка</>,
+			loader: async ({params}) => {
+				const {data} = await axios.get(`https://search.imdbot.workers.dev/?tt=${params.id}`);
+				return data;
+			}
 		},
 		{
 			path: '*',
